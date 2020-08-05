@@ -12,8 +12,6 @@ class BonusServiceTest {
             value = {
                     "'registered user, bonus under limit',100060,true,30",
                     "'registered user, bonus over limit',100000060,true,500",
-                    "'unregistered user, bonus under limit', 100060, false, 10",
-                    "'unregistered user, bonus over limit', 100000060, false, 500"
             }
     )
     void shouldCalculate(String test, long amount, boolean registered, long expected) {
@@ -26,4 +24,14 @@ class BonusServiceTest {
         assertEquals(expected, actual);
     }
 
+    @ParameterizedTest
+    @CsvFileSource(resources = "/data.csv", numLinesToSkip = 1)
+    void testWithCsvFileSource(String test, long amount, boolean registered, long expected) {
+        BonusService service = new BonusService();
+
+        long actual = service.calculate2(amount, registered);
+        assertEquals(expected, actual);
+
+
+    }
 }
